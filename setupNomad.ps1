@@ -36,7 +36,6 @@ if ($option1 -eq "server") {
     New-Service -Name "Nomad" -BinaryPathName "$exePath agent -config=$basePath\config\client.hcl" -StartupType Automatic
 }
 
-Start-Service -Name "Nomad"
-Get-Service -Name "Nomad"
+Start-Service -Name "Nomad" -PassThru
 
 # create logging via config (.hcl) files and create logs folder as part of installation
