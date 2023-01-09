@@ -1,10 +1,10 @@
 $basePath = "C:\nomad"
 $exePath = "C:\nomad\nomad.exe"
-$scriptPath = $MyInvocation.MyCommand.Path
+$scriptPath = $PSScriptRoot
 
 
 $pathExists = Test-Path $basePath -PathType Container
-$exeExists = Test-Path $basePath -PathType Leaf
+$exeExists = Test-Path $exePath -PathType Leaf
 
 if ($True -eq $pathExists) {
     Write-Host "$basePath found - continuing with setup..."
@@ -40,6 +40,7 @@ if ($option1 -eq "server") {
 } elseif ($option1 -eq "client") {
     Copy-Item "$scriptPath\configs\client.hcl" -Destination "$basePath\config\client.hcl"
     New-Service -Name "Nomad" -BinaryPathName "$exePath agent -config=$basePath\config\client.hcl -data-dir=C:\nomad\data" -StartupType Automatic
+    Write-Host "Go to $basePath\config\client.hcl and change the IP to your NoMad server!" -Foreground Yellow
 }
 
 Start-Service -Name "Nomad" -PassThru
